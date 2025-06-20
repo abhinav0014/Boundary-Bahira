@@ -12,5 +12,5 @@ urlpatterns = [
     path('', home, name='home'),
     path('about/', about, name='about'),
     path('news/', news_list, name='news'),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+    path('sitemap', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
 ]
