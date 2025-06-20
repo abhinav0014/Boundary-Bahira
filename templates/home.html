@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Boundary Bahira</h1>
+<p>Cricket news focused on Nepal and Associate cricket.</p>
+<h2>Latest News</h2>
+<ul>
+    {% for post in latest_news %}
+        <li>
+            <a href="{% url 'news_list' %}#post-{{ post.id }}">{{ post.title }}</a>
+            <small>{{ post.published_at|date:"M d, Y H:i" }}</small>
+        </li>
+    {% empty %}
+        <li>No news yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
