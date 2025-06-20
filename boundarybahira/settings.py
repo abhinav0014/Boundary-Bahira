@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.sites",  # Required for the Sites framework
-    "django.contrib.sitemaps",  # Required for sitemaps
+    "django.contrib.sites",
     "app",  # Your main application
 ]
 SITE_ID = 1  # Default site ID for the Sites framework
