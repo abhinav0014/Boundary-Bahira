@@ -1,12 +1,14 @@
 from django.db import models
 from django.urls import reverse
 from .utils import post_to_facebook
+from django.contrib.sites.models import Site
 
 class NewsPost(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
     source_url = models.URLField(blank=True, null=True)
+    views = models.PositiveIntegerField(default=0)  # Add this line
 
     def __str__(self):
         return self.title
@@ -21,7 +23,6 @@ class NewsPost(models.Model):
             # Compose the message
             message = f"{self.title}\n\n{self.content[:200]}..."
             # Build the full URL (adjust domain as needed)
-            from django.contrib.sites.models import Site
             domain = Site.objects.get_current().domain
             link = f"https://{domain}{self.get_absolute_url()}"
             post_to_facebook(message, link)

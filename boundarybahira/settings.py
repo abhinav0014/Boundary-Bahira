@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",  # Required for the Sites framework
+    "django.contrib.sitemaps",  # Required for sitemaps
     "app",  # Your main application
 ]
-
+SITE_ID = 1  # Default site ID for the Sites framework
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -122,10 +124,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "statics"
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = [
-    BASE_DIR / "media",
-]
-
+MEDIA_ROOT = BASE_DIR / "media"
 FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN")
 FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID")
 
