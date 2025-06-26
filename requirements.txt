@@ -9,3 +9,4 @@ requests==2.32.4
 sqlparse==0.5.3
 urllib3==2.5.0
 gunicorn
+dj-database-url
