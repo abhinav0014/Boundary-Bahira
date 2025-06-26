@@ -42,13 +42,14 @@ INSTALLED_APPS = [
 ]
 SITE_ID = 1  # Default site ID for the Sites framework
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'app.middleware.AdminAccessMiddleware',  # Add this line
 ]
 
 ROOT_URLCONF = "boundarybahira.urls"
@@ -134,3 +135,8 @@ FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID")
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Add these settings for login
+LOGIN_URL = 'admin_login'
+LOGIN_REDIRECT_URL = 'admin:index'  # Redirect to admin index after login
+LOGOUT_REDIRECT_URL = 'home'  # Redirect to home page after logout

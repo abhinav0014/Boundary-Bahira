@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-6 sm:p-8">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-6 border-b dark:border-gray-700">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">Dashboard</h1>
+                    <p class="text-gray-600 dark:text-gray-400">
+                        Welcome, {{ request.user.get_full_name|default:request.user.username }}
+                    </p>
+                </div>
+
+                <div class="mt-4 sm:mt-0 flex flex-wrap gap-3">
+                    <a href="{% url 'news_create' %}"
+                        class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
+                        <i class="fas fa-plus mr-2"></i> New Article
+                    </a>
+                    {% if user.is_staff %}
+                    <a href="{% url 'admin:index' %}"
+                        class="inline-flex items-center px-4 py-2 bg-primary hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                        <i class="fas fa-cog mr-2"></i> Admin Panel
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Recent Articles -->
+                <div class="md:col-span-2 space-y-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white">Recent Articles</h2>
+                        <a href="{% url 'news_list' %}"
+                            class="text-sm text-primary hover:text-blue-700 dark:text-blue-400">
+                            View all
+                        </a>
+                    </div>
+
+                    <div class="space-y-4">
+                        {% for post in recent_posts %}
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-medium text-gray-900 dark:text-white">
+                                    <a href="{{ post.get_absolute_url }}"
+                                        class="hover:text-primary dark:hover:text-blue-400">
+                                        {{ post.title }}
+                                    </a>
+                                </h3>
+                                <span
+                                    class="px-2 py-1 bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 text-xs rounded-full">
+                                    {{ post.views }} views
+                                </span>
+                            </div>
+                            <div
+                                class="mt-2 flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
+                                <span>{{ post.published_at|date:"M d, Y" }}</span>
+                                <div class="flex space-x-2">
+                                    <a href="{% url 'news_update' post.pk %}"
+                                        class="text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'add_image' post.pk %}"
+                                        class="text-green-600 hover:text-green-800 dark:text-green-400">
+                                        <i class="fas fa-image"></i>
+                                    </a>
+                                    <a href="{% url 'news_delete' post.pk %}"
+                                        class="text-red-600 hover:text-red-800 dark:text-red-400">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                            No articles yet. <a href="{% url 'news_create' %}"
+                                class="text-primary dark:text-blue-400">Create your first article</a>.
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Stats and Quick Actions -->
+                <div class="space-y-6">
+                    <!-- Stats -->
+                    <div
+                        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Statistics</h3>
+
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 dark:text-gray-400">Total Articles</span>
+                                    <span class="text-xl font-bold text-gray-900 dark:text-white">{{ stats.total_posts
+                                        }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 dark:text-gray-400">Total Views</span>
+                                    <span class="text-xl font-bold text-gray-900 dark:text-white">{{ stats.total_views
+                                        }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 dark:text-gray-400">Images</span>
+                                    <span class="text-xl font-bold text-gray-900 dark:text-white">{{ stats.total_images
+                                        }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div
+                        class="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-700 rounded-xl overflow-hidden shadow-md">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-white mb-4">Quick Actions</h3>
+
+                            <div class="space-y-3">
+                                <!-- Replace your current logout link with this: -->
+                                <form method="post" action="{% url 'admin_logout' %}" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit"
+                                        class="text-sm text-primary hover:text-blue-700 dark:text-blue-400 bg-transparent border-0 p-0">
+                                        Log out
+                                    </button>
+                                </form>
+                                <a href="{% url 'news_create' %}"
+                                    class="block w-full py-2 bg-white hover:bg-gray-100 text-primary font-medium rounded-lg text-center transition-colors">
+                                    <i class="fas fa-plus mr-2"></i> Add New Article
+                                </a>
+                                <a href="{% url 'admin:app_newspost_changelist' %}"
+                                    class="block w-full py-2 bg-white/20 hover:bg-white/30 text-white font-medium rounded-lg text-center transition-colors">
+                                    <i class="fas fa-list mr-2"></i> Manage Articles
+                                </a>
+                                <a href="{% url 'admin:auth_user_changelist' %}"
+                                    class="block w-full py-2 bg-white/20 hover:bg-white/30 text-white font-medium rounded-lg text-center transition-colors">
+                                    <i class="fas fa-users mr-2"></i> Manage Users
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

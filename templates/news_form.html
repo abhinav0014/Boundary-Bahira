@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+        <div class="p-6 sm:p-8">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                {% if is_create %}Add New Article{% else %}Edit Article{% endif %}
+            </h1>
+            
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="space-y-4">
+                    <!-- Title Field -->
+                    <div>
+                        <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Article Title
+                        </label>
+                        {{ form.title.errors }}
+                        <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" 
+                               value="{{ form.title.value|default:'' }}" 
+                               class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
+                               placeholder="Enter article title">
+                    </div>
+                    
+                    <!-- Content Field -->
+                    <div>
+                        <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Article Content
+                        </label>
+                        {{ form.content.errors }}
+                        <textarea name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" 
+                                 rows="15"
+                                 class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
+                                 placeholder="Enter article content">{{ form.content.value|default:'' }}</textarea>
+                    </div>
+                    
+                    <!-- Source URL Field -->
+                    <div>
+                        <label for="{{ form.source_url.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Source URL (optional)
+                        </label>
+                        {{ form.source_url.errors }}
+                        <input type="url" name="{{ form.source_url.name }}" id="{{ form.source_url.id_for_label }}" 
+                               value="{{ form.source_url.value|default:'' }}" 
+                               class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
+                               placeholder="https://example.com/source">
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="flex flex-wrap justify-end space-x-4 pt-6 border-t dark:border-gray-700">
+                    <a href="{% url 'news_list' %}" class="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200">
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-6 py-2 bg-primary hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                        {% if is_create %}Publish Article{% else %}Update Article{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -10,11 +10,20 @@ class NewsPost(models.Model):
     source_url = models.URLField(blank=True, null=True)
     views = models.PositiveIntegerField(default=0)  # Add this line
 
+    CATEGORY_CHOICES = (
+        ('nepal', 'Nepal Cricket'),
+        ('associate', 'Associate Cricket'),
+        ('icc', 'ICC Events'),
+        ('other', 'Other'),
+    )
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='other')
+
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('news_list') + f"#post-{self.id}"
+        """Return the URL to access a detail record for this post."""
+        return reverse('news_detail', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
         is_new = self.pk is None

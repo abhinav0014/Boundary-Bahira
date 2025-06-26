@@ -1,8 +1,218 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
-<h1>About Boundary Bahira</h1>
-<p>
-    Boundary Bahira is a website dedicated to cricket news, with a special focus on Nepal and Associate cricket. 
-    Follow us for updates, analysis, and stories from the world of cricket!
-</p>
+<!-- Header Section -->
+<section class="relative py-16 bg-gradient-to-r from-blue-900 to-blue-700 dark:from-gray-900 dark:to-gray-800">
+    <div class="absolute inset-0 opacity-20">
+        <img src="{% static 'images/cricket-pattern.png' %}" alt="" class="w-full h-full object-cover">
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">About Boundary Bahira</h1>
+        <p class="text-xl text-blue-100 dark:text-gray-300 max-w-3xl mx-auto">
+            Your premier source for Nepal and Associate Cricket news
+        </p>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 dark:from-gray-900 to-transparent"></div>
+</section>
+
+<!-- About Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6 sm:p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                        <i class="fas fa-info-circle text-primary mr-3"></i>
+                        Our Story
+                    </h2>
+                    
+                    <div class="prose prose-blue max-w-none dark:prose-invert">
+                        <p>
+                            Boundary Bahira was founded in 2025 with a simple mission: to provide comprehensive coverage of cricket news focused on Nepal and other Associate nations that often get overlooked by mainstream cricket media.
+                        </p>
+                        
+                        <p>
+                            As passionate cricket enthusiasts from Nepal, we noticed a significant gap in the coverage of Associate cricket. While the cricketing powerhouses received abundant attention, the remarkable stories, achievements, and challenges of emerging cricket nations were largely untold.
+                        </p>
+                        
+                        <p>
+                            Our team consists of dedicated cricket journalists, analysts, and fans who are committed to bringing you the most accurate, insightful, and engaging coverage of Nepal and Associate cricket. We believe that these stories deserve to be told with the same depth and passion as those from Full Member nations.
+                        </p>
+                        
+                        <h3>Our Vision</h3>
+                        <p>
+                            To become the world's leading source for Nepal and Associate cricket news, creating a platform that elevates these teams' stories to the global stage and fosters a vibrant community of cricket enthusiasts.
+                        </p>
+                        
+                        <h3>Our Mission</h3>
+                        <p>
+                            To deliver timely, accurate, and in-depth coverage of Nepal and Associate cricket, highlighting the achievements, challenges, and development of these teams while building a dedicated community of readers who share our passion.
+                        </p>
+                        
+                        <h3>What We Cover</h3>
+                        <ul>
+                            <li>Breaking news from Nepal and Associate cricket</li>
+                            <li>Match reports and analysis</li>
+                            <li>Player profiles and interviews</li>
+                            <li>Tournament coverage (ICC and regional)</li>
+                            <li>Development initiatives and grassroots cricket</li>
+                            <li>Administrative and governance updates</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Section -->
+            <div class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6 sm:p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                        <i class="fas fa-users text-primary mr-3"></i>
+                        Our Team
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Team Member 1 -->
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 flex flex-col items-center text-center">
+                            <div class="w-24 h-24 rounded-full overflow-hidden mb-4 bg-gray-200 dark:bg-gray-600">
+                                <img src="{% static 'images/team/abhinav-profile.jpeg' %}" alt="Team Member" class="w-full h-full object-cover">
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Abhinav Gyawali</h3>
+                            <p class="text-primary dark:text-blue-400 font-medium mb-3">Founder & Editor</p>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                                Cricket journalist with years of experience covering the sport across Asia.
+                            </p>
+                            <div class="flex space-x-3 text-gray-500 dark:text-gray-400">
+                                <a href="#" class="hover:text-primary"><i class="fab fa-twitter"></i></a>
+                                <a target="_blank" href="https://www.linkedin.com/in/abhinav-gyawali-4b136731a/" class="hover:text-primary"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 2 -->
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 flex flex-col items-center text-center">
+                            <div class="w-24 h-24 rounded-full overflow-hidden mb-4 bg-gray-200 dark:bg-gray-600">
+                                <img src="{% static 'images/team/placeholder.jpg' %}" alt="Team Member" class="w-full h-full object-cover">
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Prateek Basnet</h3>
+                            <p class="text-primary dark:text-blue-400 font-medium mb-3">Senior Reporter</p>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                                Specializes in Associate cricket coverage with a focus on player development.
+                            </p>
+                            <div class="flex space-x-3 text-gray-500 dark:text-gray-400">
+                                <a href="#" class="hover:text-primary"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="hover:text-primary"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div>
+            <!-- Contact Info -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                        <i class="fas fa-envelope text-primary mr-2"></i>
+                        Contact Us
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 text-center text-primary">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-900 dark:text-white font-medium">Email</p>
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    <a href="mailto:contact@boundarybahira.com" class="hover:text-primary">contact@boundarybahira.com</a>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 text-center text-primary">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-900 dark:text-white font-medium">Location</p>
+                                <p class="text-gray-600 dark:text-gray-400">Kathmandu, Nepal</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 text-center text-primary">
+                                <i class="fas fa-share-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-900 dark:text-white font-medium">Social Media</p>
+                                <div class="flex space-x-3 mt-1">
+                                    <a href="#" class="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="text-gray-500 hover:text-blue-400 dark:text-gray-400 dark:hover:text-blue-300">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="text-gray-500 hover:text-pink-600 dark:text-gray-400 dark:hover:text-pink-400">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Partnership -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                        <i class="fas fa-handshake text-primary mr-2"></i>
+                        Partner With Us
+                    </h3>
+                    
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">
+                        Interested in partnering with Boundary Bahira? We're always open to collaborations that help grow the game!
+                    </p>
+                    
+                    <a href="#" class="inline-block px-5 py-2 bg-primary hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                        Get in touch
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Statistics -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                        <i class="fas fa-chart-bar text-primary mr-2"></i>
+                        By The Numbers
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <div class="text-3xl font-bold text-primary dark:text-blue-400">20+</div>
+                            <div class="text-gray-600 dark:text-gray-400">Countries Covered</div>
+                        </div>
+                        
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <div class="text-3xl font-bold text-primary dark:text-blue-400">10+</div>
+                            <div class="text-gray-600 dark:text-gray-400">Articles Published</div>
+                        </div>
+                        
+                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <div class="text-3xl font-bold text-primary dark:text-blue-400">25+</div>
+                            <div class="text-gray-600 dark:text-gray-400">Monthly Readers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

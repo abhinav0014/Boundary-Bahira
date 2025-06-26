@@ -1,0 +1,28 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | Boundary Bahira Admin{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        Boundary Bahira Administration
+    </a>
+</h1>
+{% endblock %}
+
+{% block extrahead %}
+<link rel="icon" href="{% static 'favicon/favicon.ico' %}" type="image/x-icon">
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block usertools %}
+<div id="user-tools">
+    {% if user.is_authenticated %}
+        Welcome,
+        <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+        <a href="{% url 'admin_logout' %}">Log out</a>
+    {% endif %}
+</div>
+{% endblock %}
