@@ -36,6 +36,18 @@ class NewsPost(models.Model):
             link = f"https://{domain}{self.get_absolute_url()}"
             post_to_facebook(message, link)
 
+    def post_to_facebook(self, post_type="link"):
+        from .utils import post_to_facebook
+        domain = Site.objects.get_current().domain
+        link = f"https://{domain}{self.get_absolute_url()}"
+        message = self.title
+        image_urls = [img.image.url for img in self.images.all()]
+        if post_type == "image_caption":
+            message = self.title
+        elif post_type == "full":
+            message = f"{self.title}\n\n{self.content[:200]}..."
+        post_to_facebook(message, link, image_urls, post_type=post_type)
+
 class NewsPostImage(models.Model):
     news_post = models.ForeignKey(NewsPost, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='news_images/')

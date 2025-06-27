@@ -120,6 +120,9 @@ def add_image_to_news(request, pk):
             image = form.save(commit=False)
             image.news_post = news_post
             image.save()
+            # Get post style from form
+            post_style = form.cleaned_data.get('post_style', 'full')
+            news_post.post_to_facebook(post_type=post_style)
             return redirect('news_detail', pk=news_post.pk)
     else:
         form = NewsPostImageForm()
