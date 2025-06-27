@@ -17,8 +17,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
+RUN python manage.py collectstatic --noinput
+
 # Run migrations, collectstatic, and start the server
 CMD ["sh", "-c", "python manage.py makemigrations && \
                   python manage.py migrate && \
-                  python manage.py collectstatic --noinput && \
                   gunicorn boundarybahira.wsgi:application --bind 0.0.0.0:8000"]
