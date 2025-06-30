@@ -49,6 +49,109 @@
                     </div>
                 </div>
                 
+                <!-- Facebook Share Options -->
+                <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-800">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-facebook text-blue-600 dark:text-blue-400 text-xl mr-2"></i>
+                        <h3 class="font-medium text-gray-900 dark:text-white">Share to Facebook</h3>
+                    </div>
+                    
+                    <div class="flex items-center mb-3">
+                        <input type="checkbox" id="share_to_facebook" name="share_to_facebook" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="share_to_facebook" class="ml-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Share to Facebook after uploading
+                        </label>
+                    </div>
+                    
+                    <div class="space-y-3 pl-6" id="facebook_options" style="display: none;">
+                        <!-- Post Type Selection -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Post Style</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div>
+                                    <input type="radio" id="post_style_full" name="post_style" value="full" class="peer hidden" checked>
+                                    <label for="post_style_full" class="flex flex-col items-center justify-center p-2 border-2 rounded-lg cursor-pointer border-gray-300 peer-checked:border-blue-600 dark:border-gray-600 dark:peer-checked:border-blue-500 bg-white dark:bg-gray-700 dark:peer-checked:bg-gray-700/70">
+                                        <span class="text-xs font-medium mb-1">Full Post</span>
+                                        <span class="bg-gray-100 dark:bg-gray-600 w-full h-12 rounded flex flex-col p-1">
+                                            <span class="w-full h-2 bg-gray-300 dark:bg-gray-500 rounded mb-1"></span>
+                                            <span class="w-3/4 h-2 bg-gray-300 dark:bg-gray-500 rounded mb-1"></span>
+                                            <span class="w-4/5 h-5 bg-blue-300 dark:bg-blue-600 rounded"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="post_style_image" name="post_style" value="image" class="peer hidden">
+                                    <label for="post_style_image" class="flex flex-col items-center justify-center p-2 border-2 rounded-lg cursor-pointer border-gray-300 peer-checked:border-blue-600 dark:border-gray-600 dark:peer-checked:border-blue-500 bg-white dark:bg-gray-700 dark:peer-checked:bg-gray-700/70">
+                                        <span class="text-xs font-medium mb-1">Image Only</span>
+                                        <span class="bg-gray-100 dark:bg-gray-600 w-full h-12 rounded flex items-center justify-center">
+                                            <span class="w-8 h-6 bg-blue-300 dark:bg-blue-600 rounded"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="post_style_link" name="post_style" value="link" class="peer hidden">
+                                    <label for="post_style_link" class="flex flex-col items-center justify-center p-2 border-2 rounded-lg cursor-pointer border-gray-300 peer-checked:border-blue-600 dark:border-gray-600 dark:peer-checked:border-blue-500 bg-white dark:bg-gray-700 dark:peer-checked:bg-gray-700/70">
+                                        <span class="text-xs font-medium mb-1">Link Post</span>
+                                        <span class="bg-gray-100 dark:bg-gray-600 w-full h-12 rounded flex flex-col p-1">
+                                            <span class="w-full h-2 bg-gray-300 dark:bg-gray-500 rounded mb-1"></span>
+                                            <span class="w-full h-6 bg-white dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-500 flex items-center justify-center">
+                                                <span class="w-10 h-2 bg-blue-300 dark:bg-blue-600 rounded"></span>
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Elements to Include -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Include in post:</label>
+                            <div class="space-y-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="include_title" name="include_title" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                    <label for="include_title" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Title</label>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="include_excerpt" name="include_excerpt" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                    <label for="include_excerpt" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Content excerpt</label>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="include_image" name="include_image" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                    <label for="include_image" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Image</label>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="include_link" name="include_link" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                    <label for="include_link" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Link to article</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Facebook Post Preview -->
+                        <div class="mt-4 p-3 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                                    <i class="fas fa-newspaper text-xs"></i>
+                                </div>
+                                <div class="ml-2">
+                                    <div class="text-sm font-medium">Boundary Bahira</div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400">Just now</div>
+                                </div>
+                            </div>
+                            <div class="text-sm preview-content">
+                                <span id="preview-title" class="font-medium block">{{ news_post.title }}</span>
+                                <span id="preview-excerpt" class="text-gray-600 dark:text-gray-400 block mt-1">{{ news_post.content|truncatechars:100 }}</span>
+                                <div id="preview-image" class="my-2 flex justify-center hidden">
+                                    <img id="preview-image-src" class="max-h-32 rounded" src="" alt="Preview">
+                                </div>
+                                <span id="preview-link" class="text-blue-600 dark:text-blue-400 block mt-1 text-xs">https://yoursite.com/news/{{ news_post.id }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Form Actions -->
                 <div class="flex flex-wrap justify-end space-x-4 pt-6 border-t dark:border-gray-700">
                     <a href="{% url 'news_detail' news_post.pk %}" class="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200">
@@ -84,6 +187,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Image upload preview functionality
         const imageInput = document.getElementById('{{ form.image.id_for_label }}');
         const previewContainer = document.getElementById('image-preview-container');
         const previewImage = document.getElementById('image-preview');
@@ -97,6 +201,11 @@
                 reader.onload = function(e) {
                     previewImage.setAttribute('src', e.target.result);
                     previewContainer.classList.remove('hidden');
+                    
+                    // Also update Facebook preview if enabled
+                    const fbPreviewImage = document.getElementById('preview-image-src');
+                    fbPreviewImage.setAttribute('src', e.target.result);
+                    document.getElementById('preview-image').classList.remove('hidden');
                 }
                 
                 reader.readAsDataURL(this.files[0]);
@@ -108,7 +217,87 @@
             previewImage.setAttribute('src', '');
             previewContainer.classList.add('hidden');
             imageInput.value = '';
+            
+            // Also update Facebook preview
+            document.getElementById('preview-image').classList.add('hidden');
         });
+        
+        // Facebook share options
+        const shareCheckbox = document.getElementById('share_to_facebook');
+        const optionsDiv = document.getElementById('facebook_options');
+        
+        const titleCheckbox = document.getElementById('include_title');
+        const excerptCheckbox = document.getElementById('include_excerpt');
+        const imageCheckbox = document.getElementById('include_image');
+        const linkCheckbox = document.getElementById('include_link');
+        
+        const previewTitle = document.getElementById('preview-title');
+        const previewExcerpt = document.getElementById('preview-excerpt');
+        const previewImageDiv = document.getElementById('preview-image');
+        const previewLink = document.getElementById('preview-link');
+        
+        // Post style radio buttons
+        const postStyleFull = document.getElementById('post_style_full');
+        const postStyleImage = document.getElementById('post_style_image');
+        const postStyleLink = document.getElementById('post_style_link');
+        
+        // Toggle options visibility
+        shareCheckbox.addEventListener('change', function() {
+            optionsDiv.style.display = this.checked ? 'block' : 'none';
+        });
+        
+        // Update preview based on checkboxes
+        titleCheckbox.addEventListener('change', function() {
+            previewTitle.style.display = this.checked ? 'block' : 'none';
+        });
+        
+        excerptCheckbox.addEventListener('change', function() {
+            previewExcerpt.style.display = this.checked ? 'block' : 'none';
+        });
+        
+        imageCheckbox.addEventListener('change', function() {
+            previewImageDiv.style.display = this.checked && previewImage.getAttribute('src') ? 'flex' : 'none';
+        });
+        
+        linkCheckbox.addEventListener('change', function() {
+            previewLink.style.display = this.checked ? 'block' : 'none';
+        });
+        
+        // Handle post style changes
+        postStyleFull.addEventListener('change', updatePostStyle);
+        postStyleImage.addEventListener('change', updatePostStyle);
+        postStyleLink.addEventListener('change', updatePostStyle);
+        
+        function updatePostStyle() {
+            if (postStyleFull.checked) {
+                titleCheckbox.disabled = false;
+                excerptCheckbox.disabled = false;
+                imageCheckbox.disabled = false;
+                linkCheckbox.disabled = false;
+            } else if (postStyleImage.checked) {
+                titleCheckbox.disabled = true;
+                excerptCheckbox.disabled = true;
+                imageCheckbox.disabled = true;
+                linkCheckbox.disabled = true;
+                
+                // Update preview
+                previewTitle.style.display = 'none';
+                previewExcerpt.style.display = 'none';
+                previewImageDiv.style.display = 'flex';
+                previewLink.style.display = 'none';
+            } else if (postStyleLink.checked) {
+                titleCheckbox.disabled = false;
+                excerptCheckbox.disabled = true;
+                imageCheckbox.disabled = true;
+                linkCheckbox.disabled = true;
+                
+                // Update preview
+                previewTitle.style.display = 'block';
+                previewExcerpt.style.display = 'none';
+                previewImageDiv.style.display = 'none';
+                previewLink.style.display = 'block';
+            }
+        }
         
         // Handle drag and drop
         const dropArea = imageInput.closest('div');
@@ -152,6 +341,11 @@
                 reader.onload = function(e) {
                     previewImage.setAttribute('src', e.target.result);
                     previewContainer.classList.remove('hidden');
+                    
+                    // Also update Facebook preview
+                    const fbPreviewImage = document.getElementById('preview-image-src');
+                    fbPreviewImage.setAttribute('src', e.target.result);
+                    document.getElementById('preview-image').classList.remove('hidden');
                 }
                 
                 reader.readAsDataURL(files[0]);

@@ -36,17 +36,31 @@ class NewsPost(models.Model):
             link = f"https://{domain}{self.get_absolute_url()}"
             post_to_facebook(message, link)
 
-    def post_to_facebook(self, post_type="link"):
-        from .utils import post_to_facebook
-        domain = Site.objects.get_current().domain
-        link = f"https://{domain}{self.get_absolute_url()}"
-        message = self.title
-        image_urls = [img.image.url for img in self.images.all()]
-        if post_type == "image_caption":
-            message = self.title
-        elif post_type == "full":
-            message = f"{self.title}\n\n{self.content[:200]}..."
-        post_to_facebook(message, link, image_urls, post_type=post_type)
+    def post_to_facebook(self, post_type='full', include_title=True, include_excerpt=True, 
+                    include_image=True, include_link=True, image=None):
+        """
+        Post this news article to Facebook with the specified options
+        """
+        from .utils import post_to_facebook as fb_post
+        success, result = fb_post(
+            post=self,
+            post_type=post_type,
+            include_title=include_title,
+            include_excerpt=include_excerpt,
+            include_image=include_image,
+            include_link=include_link,
+            image=image
+        )
+        
+        # Optional: store the result or post ID for future reference
+        if success:
+            # You could save the Facebook post ID to track it
+            facebook_post_id = result.get('id')
+            # self.facebook_post_id = facebook_post_id  # If you add this field to your model
+            # self.save(update_fields=['facebook_post_id'])
+            pass
+            
+        return success
 
 class NewsPostImage(models.Model):
     news_post = models.ForeignKey(NewsPost, related_name='images', on_delete=models.CASCADE)

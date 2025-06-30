@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
+from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from .models import NewsPost, NewsPostImage
 from .forms import NewsPostForm, NewsPostImageForm
+from django.utils import timezone
 
 # List view for news posts
 class NewsPostListView(ListView):
@@ -76,6 +78,26 @@ class NewsPostCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['is_create'] = True
         return context
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        
+        # Handle Facebook sharing if selected
+        if form.cleaned_data.get('share_to_facebook'):
+            post = form.instance
+            
+            # Determine what to include based on form data
+            include_title = form.cleaned_data.get('include_title', True)
+            include_excerpt = form.cleaned_data.get('include_excerpt', True)
+            include_link = form.cleaned_data.get('include_link', True)
+            
+            post.post_to_facebook(
+                include_title=include_title,
+                include_excerpt=include_excerpt,
+                include_link=include_link
+            )
+            
+        return response
 
 # Update view for news posts
 class NewsPostUpdateView(LoginRequiredMixin, UpdateView):
@@ -87,6 +109,32 @@ class NewsPostUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['is_create'] = False
         return context
+    
+    def form_valid(self, form):
+        # Check if this is a Facebook share-only request
+        if 'share_only' in self.request.POST:
+            post = form.instance
+            post.post_to_facebook()
+            return redirect('news_detail', pk=post.pk)
+            
+        response = super().form_valid(form)
+        
+        # Handle Facebook sharing if selected
+        if form.cleaned_data.get('share_to_facebook'):
+            post = form.instance
+            
+            # Determine what to include based on form data
+            include_title = form.cleaned_data.get('include_title', True)
+            include_excerpt = form.cleaned_data.get('include_excerpt', True)
+            include_link = form.cleaned_data.get('include_link', True)
+            
+            post.post_to_facebook(
+                include_title=include_title,
+                include_excerpt=include_excerpt,
+                include_link=include_link
+            )
+            
+        return response
 
 # Delete view for news posts
 class NewsPostDeleteView(LoginRequiredMixin, DeleteView):
@@ -120,9 +168,26 @@ def add_image_to_news(request, pk):
             image = form.save(commit=False)
             image.news_post = news_post
             image.save()
-            # Get post style from form
-            post_style = form.cleaned_data.get('post_style', 'full')
-            news_post.post_to_facebook(post_type=post_style)
+            
+            # Handle Facebook sharing if selected
+            if form.cleaned_data.get('share_to_facebook'):
+                # Get post style and options
+                post_style = form.cleaned_data.get('post_style', 'full')
+                include_title = form.cleaned_data.get('include_title', True)
+                include_excerpt = form.cleaned_data.get('include_excerpt', True)
+                include_image = form.cleaned_data.get('include_image', True)
+                include_link = form.cleaned_data.get('include_link', True)
+                
+                # Post to Facebook with the selected options
+                news_post.post_to_facebook(
+                    post_type=post_style,
+                    include_title=include_title,
+                    include_excerpt=include_excerpt,
+                    include_image=include_image and bool(image),  # Only if we have an image
+                    include_link=include_link,
+                    image=image if include_image else None
+                )
+                
             return redirect('news_detail', pk=news_post.pk)
     else:
         form = NewsPostImageForm()
@@ -160,15 +225,53 @@ def news_list(request):
 # Add this view
 @login_required
 def dashboard(request):
+    # Basic stats
     recent_posts = NewsPost.objects.order_by('-published_at')[:10]
+    total_posts = NewsPost.objects.count()
+    total_views = NewsPost.objects.aggregate(total=Sum('views'))['total'] or 0
+    total_images = NewsPostImage.objects.count()
+    
+    # Enhanced stats
+    posts_this_month = NewsPost.objects.filter(
+        published_at__month=timezone.now().month,
+        published_at__year=timezone.now().year
+    ).count()
+    
+    # Most viewed articles
+    most_viewed = NewsPost.objects.order_by('-views')[:5]
+    
+    # Category distribution
+    category_counts = {}
+    for category_choice in NewsPost.CATEGORY_CHOICES:
+        code, name = category_choice
+        count = NewsPost.objects.filter(category=code).count()
+        category_counts[name] = count
+    
+    # Articles with no images
+    posts_without_images = NewsPost.objects.filter(images__isnull=True).count()
+    
+    # User activity if you're tracking that
+    if request.user.is_superuser:
+        # Only show this to superusers
+        recent_users = User.objects.filter(
+            last_login__isnull=False
+        ).order_by('-last_login')[:5]
+    else:
+        recent_users = None
     
     stats = {
-        'total_posts': NewsPost.objects.count(),
-        'total_views': NewsPost.objects.aggregate(total=Sum('views'))['total'] or 0,
-        'total_images': NewsPostImage.objects.count(),
+        'total_posts': total_posts,
+        'total_views': total_views,
+        'total_images': total_images,
+        'posts_this_month': posts_this_month,
+        'avg_views_per_post': round(total_views / total_posts if total_posts > 0 else 0, 1),
+        'posts_without_images': posts_without_images,
+        'category_distribution': category_counts
     }
     
     return render(request, 'dashboard.html', {
         'recent_posts': recent_posts,
+        'most_viewed_posts': most_viewed,
+        'recent_users': recent_users,
         'stats': stats,
     })

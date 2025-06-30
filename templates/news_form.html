@@ -48,6 +48,73 @@
                                class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
                                placeholder="https://example.com/source">
                     </div>
+                    
+                    <!-- Category Field -->
+                    <div>
+                        <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Category
+                        </label>
+                        {{ form.category.errors }}
+                        <select name="{{ form.category.name }}" id="{{ form.category.id_for_label }}"
+                                class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white">
+                            {% for choice in form.category.field.choices %}
+                                <option value="{{ choice.0 }}" {% if form.category.value == choice.0 %}selected{% endif %}>
+                                    {{ choice.1 }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Facebook Share Options -->
+                    <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <div class="flex items-center mb-3">
+                            <i class="fab fa-facebook text-blue-600 dark:text-blue-400 text-xl mr-2"></i>
+                            <h3 class="font-medium text-gray-900 dark:text-white">Facebook Sharing Options</h3>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" id="share_to_facebook" name="share_to_facebook" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="share_to_facebook" class="ml-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Share to Facebook after publishing
+                            </label>
+                        </div>
+                        
+                        <div class="space-y-2 pl-6" id="facebook_options" style="display: none;">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="include_title" name="include_title" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                <label for="include_title" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Include title</label>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <input type="checkbox" id="include_excerpt" name="include_excerpt" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                <label for="include_excerpt" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Include content excerpt</label>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <input type="checkbox" id="include_link" name="include_link" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                <label for="include_link" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Include link to article</label>
+                            </div>
+                            
+                            <!-- Facebook Post Preview (simple version) -->
+                            <div class="mt-3 p-3 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                                <div class="flex items-center mb-2">
+                                    <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                                        <i class="fas fa-newspaper text-xs"></i>
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="text-sm font-medium">Boundary Bahira</div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">Just now</div>
+                                    </div>
+                                </div>
+                                <div class="text-sm preview-content mb-2">
+                                    <!-- This will be updated by JS -->
+                                    <span id="preview-title" class="font-medium block"></span>
+                                    <span id="preview-excerpt" class="text-gray-600 dark:text-gray-400 block mt-1"></span>
+                                    <span id="preview-link" class="text-blue-600 dark:text-blue-400 block mt-1 text-xs"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Form Actions -->
@@ -58,9 +125,76 @@
                     <button type="submit" class="px-6 py-2 bg-primary hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
                         {% if is_create %}Publish Article{% else %}Update Article{% endif %}
                     </button>
+                    {% if not is_create %}
+                    <button type="submit" name="share_only" value="true" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                        <i class="fab fa-facebook mr-2"></i> Share on Facebook
+                    </button>
+                    {% endif %}
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const shareCheckbox = document.getElementById('share_to_facebook');
+        const optionsDiv = document.getElementById('facebook_options');
+        const titleField = document.getElementById('{{ form.title.id_for_label }}');
+        const contentField = document.getElementById('{{ form.content.id_for_label }}');
+        
+        const previewTitle = document.getElementById('preview-title');
+        const previewExcerpt = document.getElementById('preview-excerpt');
+        const previewLink = document.getElementById('preview-link');
+        
+        const titleCheckbox = document.getElementById('include_title');
+        const excerptCheckbox = document.getElementById('include_excerpt');
+        const linkCheckbox = document.getElementById('include_link');
+        
+        // Toggle options visibility
+        shareCheckbox.addEventListener('change', function() {
+            optionsDiv.style.display = this.checked ? 'block' : 'none';
+            updatePreview();
+        });
+        
+        // Update preview when content changes
+        titleField.addEventListener('input', updatePreview);
+        contentField.addEventListener('input', updatePreview);
+        
+        // Update preview when options change
+        titleCheckbox.addEventListener('change', updatePreview);
+        excerptCheckbox.addEventListener('change', updatePreview);
+        linkCheckbox.addEventListener('change', updatePreview);
+        
+        function updatePreview() {
+            if (!shareCheckbox.checked) return;
+            
+            // Update preview content based on checkboxes
+            if (titleCheckbox.checked) {
+                previewTitle.textContent = titleField.value || 'Your article title';
+                previewTitle.style.display = 'block';
+            } else {
+                previewTitle.style.display = 'none';
+            }
+            
+            if (excerptCheckbox.checked) {
+                const content = contentField.value || 'Your article content';
+                previewExcerpt.textContent = content.substring(0, 100) + (content.length > 100 ? '...' : '');
+                previewExcerpt.style.display = 'block';
+            } else {
+                previewExcerpt.style.display = 'none';
+            }
+            
+            if (linkCheckbox.checked) {
+                previewLink.textContent = 'https://yoursite.com/news/article';
+                previewLink.style.display = 'block';
+            } else {
+                previewLink.style.display = 'none';
+            }
+        }
+        
+        // Initial preview update
+        updatePreview();
+    });
+</script>
 {% endblock %}

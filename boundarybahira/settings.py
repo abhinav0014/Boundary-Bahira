@@ -22,7 +22,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Get environment variables with defaults
 SECRET_KEY = os.getenv('SECRET_KEY', 'your-default-secret-key')
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -80,6 +80,7 @@ DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL'),
         conn_max_age=600
+        
     )
 }
 
